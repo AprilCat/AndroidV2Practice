@@ -30,14 +30,22 @@ public class LongRunningService extends Service {
         Log.d(TAG, "onDestroy: ");
     }
 
+    public void hello(MyListener listener){
+        String a = "Hello Lambda";
+        int b = 1024;
+        String result = listener.doSomething(a, b);
+        Log.d(TAG, "hello: " + result);
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG, "run: ");
-            }
+        new Thread(() -> {
+            Log.d(TAG, "run: ");
+            hello((a, b)->{
+                return a + b;
+            });
         }).start();
+
         Log.d(TAG, "onStartCommand: ");
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         int ten_seconds = 3 * 1000;

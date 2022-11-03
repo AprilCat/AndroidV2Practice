@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -16,7 +17,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button running = (Button) findViewById(R.id.running_service);
         running.setOnClickListener(this);
         Button stop = (Button) findViewById(R.id.stop_service);
-        stop.setOnClickListener(this);
+        stop.setOnClickListener((view)->{
+            Intent i = new Intent(this, LongRunningService.class);
+            stopService(i);
+            Toast.makeText(MainActivity.this, "stop service", Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
