@@ -2,9 +2,11 @@ package com.voidsoul.coolweather.util;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.voidsoul.coolweather.db.City;
 import com.voidsoul.coolweather.db.County;
 import com.voidsoul.coolweather.db.Province;
+import com.voidsoul.coolweather.gson.Weather;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -67,6 +69,18 @@ public class Utility {
             }
         }
         return false;
+    }
+
+    public static Weather handleWeatherResponse(String response){
+        try{
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
+            String weatherContent = jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent, Weather.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
